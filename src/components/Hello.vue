@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <img src="~assets/quasar-logo-full.svg" alt="Quasar PWA">
+    <img src="~assets/quasar-meteor-logo-full.svg" alt="Quasar + Meteor">
     <h5>Welcome to your Quasar + Meteor</h5>
     <div class="padding">
       <div class="block-field">
