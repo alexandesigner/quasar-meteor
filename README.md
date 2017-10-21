@@ -1,6 +1,6 @@
-# Quasar + Meteor
+<img src="https://cdn.rawgit.com/alexandesigner/quasar-meteor/3edd3fb5/src/assets/quasar-meteor-logo-full.svg" width="300" />
 
-> A Quasar + Meteor project
+> A [Quasar Framework](https://github.com/quasarframework/quasar) + [Meteor](https://github.com/meteor/meteor) starter kit
 
 ## Build Setup
 
