@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
-    
+    <img src="~assets/quasar-meteor-logo-full.svg" alt="Quasar + Meteor Starter kit" width="280">
+    <h5>Welcome to your Quasar + Meteor Starter kit</h5>
     <div class="padding">
       <div class="authentication">
         
