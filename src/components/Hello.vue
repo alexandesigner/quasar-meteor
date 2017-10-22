@@ -1,7 +1,6 @@
 <template>
   <div class="hello">
-    <img src="~assets/quasar-meteor-logo-full.svg" alt="Quasar + Meteor" width="280">
-    <h5>Welcome to your Quasar + Meteor</h5>
+    
     <div class="padding">
       <div class="authentication">
         
@@ -78,7 +77,7 @@
       </div>
       <q-card class="block-list">
         <div class="block-field">
-          <q-input v-model="newTask" @keyup.enter="addTask" stack-label="Insert your task title" />
+          <q-input v-model="newTask" stack-label="Insert your task title" />
           <q-btn :disabled="this.newTask.length < 3" color="primary" small @click.prevent="addTask" class="add-button">Add Task</q-btn>
         </div>
         <q-list>
@@ -93,7 +92,7 @@
             <q-item v-for="(item, index) in tasks" :key="item.id">
               <q-item-main>
                 <span v-if="!item.editing">{{ item.title }}</span>
-                <q-input v-if="item.editing" @keyup.enter="saveTask(item)" v-model="changeTask" />
+                <q-input v-if="item.editing" v-model="changeTask" />
               </q-item-main>
               <q-item-side>
                 <q-btn v-if="!item.editing" color="warning" outline @click.prevent="editTask(item)" small>
@@ -127,7 +126,8 @@ import {
   QCard,
   QModal,
   Dialog,
-  Alert
+  Alert,
+  Toast
 } from 'quasar'
 import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
@@ -151,6 +151,7 @@ export default {
   data () {
     return {
       tasks: [],
+      userData: [],
       newTask: '',
       registerLoad: false,
       loginLoad: false,
@@ -171,44 +172,59 @@ export default {
     Tracker.autorun(() => {
       this.loginStatus()
       this.tasks = Tasks.find({}, {sort: { createdAt: -1 }})
-        .map(function (item) {
+        .map((item) => {
           return {
             _id: item._id,
             title: item.title,
             editing: false
           }
         })
-      if (Meteor.userId() || Meteor.user()) {
-        const userEmail = Meteor.user().emails[0].address
-        this.email = userEmail
+    })
+  },
+  mounted () {
+    Tracker.autorun(() => {
+      if (Meteor.userId() !== null || Meteor.user() !== null) {
+        const userEmail = Meteor.users.find({_id: Meteor.userId()}, {fields: {emails: 1}})
+          .map((item) => {
+            return item.emails[0].address
+          })
+        this.email = userEmail[0]
       }
     })
   },
   methods: {
     logout () {
+      Alert.create({html: 'You logged out'})
       Meteor.logout()
       this.loggedIn = false
     },
     loginStatus () {
-      if (Meteor.userId() || Meteor.user()) {
-        this.loggedIn = true
-      }
+      if (Meteor.userId() !== null || Meteor.user() !== null) this.loggedIn = true
     },
-    addTask () {
+    addTask (item) {
       if (this.newTask) {
+        Toast.create({
+          html: this.newTask,
+          timeout: 2500,
+          color: '#fff',
+          button: {
+            color: 'yellow',
+            handler () {
+              console.log(item)
+            }
+          }
+        })
         Meteor.call('tasks.insert', this.newTask)
         this.newTask = ''
       }
     },
     editTask (item) {
       item.editing = true
-      if (item.editing === true) {
-        this.changeTask = item.title
-      }
+      if (item.editing === true) this.changeTask = item.title
     },
     saveTask (item) {
       item.editing = false
-      if (this.changeTask) return Meteor.call('tasks.update', item._id, this.changeTask)
+      if (this.changeTask) Meteor.call('tasks.update', item._id, this.changeTask)
     },
     removeTask (item) {
       Dialog.create({
@@ -240,6 +256,7 @@ export default {
           this.loginLoad = false
         }
         else {
+          Alert.create({html: 'Good to see you again, welcome!', color: 'primary', icon: 'check'})
           this.loginLoad = false
           this.loginForm.email = ''
           this.loginForm.password = ''
@@ -248,7 +265,6 @@ export default {
       })
     },
     register () {
-      const self = this
       this.registerLoad = true
       Accounts.createUser({
         createdAt: new Date(),
@@ -257,9 +273,10 @@ export default {
       }, (err, res) => {
         if (err) {
           Alert.create({html: err})
-          self.registerLoad = false
+          this.registerLoad = false
         }
         else {
+          Alert.create({html: 'You just signed up', color: 'positive', icon: 'check'})
           this.registerLoad = false
           this.registerForm.email = ''
           this.registerForm.password = ''
