@@ -183,17 +183,20 @@ export default {
     })
   },
   mounted () {
-    Tracker.autorun(() => {
-      if (Meteor.userId() !== null || Meteor.user() !== null) {
-        const userEmail = Meteor.users.find({_id: Meteor.userId()}, {fields: {emails: 1}})
-          .map((item) => {
-            return item.emails[0].address
-          })
-        this.email = userEmail[0]
-      }
-    })
+    this.userEmail()
   },
   methods: {
+    userEmail () {
+      Tracker.autorun(() => {
+        if (Meteor.userId() !== null || Meteor.user() !== null) {
+          const userEmail = Meteor.users.find({_id: Meteor.userId()}, {fields: {emails: 1}})
+            .map((item) => {
+              return item.emails[0].address
+            })
+          this.email = userEmail[0]
+        }
+      })
+    },
     logout () {
       Alert.create({html: 'You logged out'})
       Meteor.logout()
@@ -204,19 +207,22 @@ export default {
     },
     addTask (item) {
       if (this.newTask) {
-        Toast.create({
-          html: this.newTask,
-          timeout: 2500,
-          color: '#fff',
-          button: {
-            color: 'yellow',
-            handler () {
-              console.log(item)
-            }
+        Meteor.call('tasks.insert', this.newTask, (err) => {
+          if (err) {
+            Alert.create({html: err.reason})
+          }
+          else {
+            Toast.create({
+              html: this.newTask,
+              timeout: 2500,
+              color: '#fff',
+              button: {
+                color: 'yellow'
+              }
+            })
+            this.newTask = ''
           }
         })
-        Meteor.call('tasks.insert', this.newTask)
-        this.newTask = ''
       }
     },
     editTask (item) {
@@ -225,7 +231,23 @@ export default {
     },
     saveTask (item) {
       item.editing = false
-      if (this.changeTask) Meteor.call('tasks.update', item._id, this.changeTask)
+      if (this.changeTask) {
+        Meteor.call('tasks.update', item._id, this.changeTask, (err) => {
+          if (err) {
+            Alert.create({html: err.reason})
+          }
+          else {
+            Toast.create({
+              html: this.changeTask,
+              timeout: 2500,
+              color: '#fff',
+              button: {
+                color: 'yellow'
+              }
+            })
+          }
+        })
+      }
     },
     removeTask (item) {
       Dialog.create({
@@ -243,7 +265,21 @@ export default {
             color: 'negative',
             outline: true,
             handler () {
-              Meteor.call('tasks.remove', item._id)
+              Meteor.call('tasks.remove', item._id, (err) => {
+                if (err) {
+                  Alert.create({html: err.reason})
+                }
+                else {
+                  Toast.create({
+                    html: 'Task has been removed',
+                    timeout: 2500,
+                    color: '#fff',
+                    button: {
+                      color: 'yellow'
+                    }
+                  })
+                }
+              })
             }
           }
         ]
