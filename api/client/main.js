@@ -1,5 +1,4 @@
 import { Template } from 'meteor/templating'
-import { remote } from '../imports/startup/remote'
 import { Tasks } from '../imports/api/collections'
 
 import './main.html'
@@ -17,6 +16,6 @@ Template.tasksList.helpers({
 Template.tasksList.events({
   'click #add-task': (event, instance) => {
     event.preventDefault()
-    Meteor.call('tasks.insert', 'Texto2')
+    Meteor.call('tasks.insert', 'Task')
   }
 })

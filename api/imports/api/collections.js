@@ -3,7 +3,6 @@ import { Mongo } from 'meteor/mongo'
 import { check } from 'meteor/check'
 
 export const Tasks = new Mongo.Collection('tasks')
-// export const Tasks = new Mongo.Collection('tasks', remote)
 
 if (Meteor.isServer) {
   Meteor.publish('tasks', function tasksPublication() {
