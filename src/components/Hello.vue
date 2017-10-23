@@ -27,7 +27,7 @@
               <div>
                 <q-input
                   stack-label="Your email"
-                  v-model="formLogin.email"
+                  v-model="loginForm.email"
                   @keyup.enter="login"
                 />
               </div>
@@ -35,12 +35,12 @@
                 <q-input
                   stack-label="Your password"
                   type="password"
-                  v-model="formLogin.password"
+                  v-model="loginForm.password"
                   @keyup.enter="login"
                 />
               </div>
               <div>
-                <q-btn loader v-model="handleLogin" @click="login" color="primary" class="full-width">Login</q-btn>
+                <q-btn loader v-model="loginLoad" @click="login" color="primary" class="full-width">Login</q-btn>
               </div>
             </div>
           </div>
@@ -56,7 +56,7 @@
               <div>
                 <q-input
                   stack-label="Your email"
-                  v-model="formRegister.email"
+                  v-model="registerForm.email"
                   @keyup.enter="register"
                 />
               </div>
@@ -64,12 +64,12 @@
                 <q-input
                   stack-label="Your password"
                   type="password"
-                  v-model="formRegister.password"
+                  v-model="registerForm.password"
                   @keyup.enter="register"
                 />
               </div>
               <div>
-                <q-btn loader v-model="handleRegister" @click.prevent="register" color="positive" class="full-width">Confirm</q-btn>
+                <q-btn loader v-model="registerLoad" @click.prevent="register" color="positive" class="full-width">Confirm</q-btn>
               </div>
             </div>
           </div>
@@ -152,14 +152,14 @@ export default {
     return {
       tasks: [],
       newTask: '',
-      handleRegister: false,
-      handleLogin: false,
+      registerLoad: false,
+      loginLoad: false,
       loggedIn: false,
-      formLogin: {
+      loginForm: {
         email: '',
         password: ''
       },
-      formRegister: {
+      registerForm: {
         email: '',
         password: ''
       },
@@ -233,36 +233,36 @@ export default {
       })
     },
     login () {
-      this.handleLogin = true
-      Meteor.loginWithPassword(this.formLogin.email, this.formLogin.password, (err) => {
+      this.loginLoad = true
+      Meteor.loginWithPassword(this.loginForm.email, this.loginForm.password, (err) => {
         if (err) {
           Alert.create({html: err})
-          this.handleLogin = false
+          this.loginLoad = false
         }
         else {
-          this.handleLogin = false
-          this.formLogin.email = ''
-          this.formLogin.password = ''
+          this.loginLoad = false
+          this.loginForm.email = ''
+          this.loginForm.password = ''
           this.$refs.loginModal.close()
         }
       })
     },
     register () {
       const self = this
-      this.handleRegister = true
+      this.registerLoad = true
       Accounts.createUser({
         createdAt: new Date(),
-        email: this.formRegister.email,
-        password: this.formRegister.password
+        email: this.registerForm.email,
+        password: this.registerForm.password
       }, (err, res) => {
         if (err) {
           Alert.create({html: err})
-          self.handleRegister = false
+          self.registerLoad = false
         }
         else {
-          this.handleRegister = false
-          this.formRegister.email = ''
-          this.formRegister.password = ''
+          this.registerLoad = false
+          this.registerForm.email = ''
+          this.registerForm.password = ''
           this.$refs.registerModal.close()
         }
       })
@@ -271,7 +271,6 @@ export default {
 }
 </script>
 
-<!-- Add 'scoped" attribute to limit CSS to this component only -->
 <style lang="stylus">
 .hello
   text-align center
