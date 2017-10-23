@@ -19,6 +19,17 @@ Meteor.methods({
       createdAt: new Date()
     })
   },
+  'tasks.update'(taskId, task) {
+    check(taskId, String)
+    check(task, String)
+    Tasks.update(taskId, {
+      $set: {
+        _id: taskId,
+        updatedAt: new Date(),
+        title: task
+      }
+    })
+  },
   'tasks.remove'(taskId) {
     check(taskId, String)
     Tasks.remove(taskId)

@@ -4,24 +4,37 @@
     <h5>Welcome to your Quasar + Meteor</h5>
     <div class="padding">
       <div class="block-field">
-        <q-input v-model="newTask" stack-label="Add Task" />
-        <q-btn color="primary" @click="addTask">Add</q-btn>
+        <q-input v-model="newTask" stack-label="Insert your task title" />
+        <q-btn color="primary" small @click="addTask" class="add-button">Add Task</q-btn>
       </div>
       <q-card class="block-list">
         <q-list>
           <div v-if="this.tasks.length === 0">
-            <span class="margin">
-              No registration for tasks
+            <span class="notFound">
+              <q-icon name="not_interested" />
+              <span>No registration for tasks</span>
             </span>
           </div>
-          <q-item v-else v-for="(item, index) in tasks" :key="item.id">
-            <q-item-main>
-              {{ item.title }}
-            </q-item-main>
-            <q-item-side>
-              <q-btn color="negative" @click="removeTask(item)">Remove</q-btn>
-            </q-item-side>
-          </q-item>
+          <div v-else>
+            <q-list-header class="title">Tasks <strong>({{ this.tasks.length }})</strong></q-list-header>
+            <q-item v-for="(item, index) in tasks" :key="item.id">
+              <q-item-main>
+                <span v-if="!item.editing">{{ item.title }}</span>
+                <q-input v-if="item.editing" v-model="changeTask" />
+              </q-item-main>
+              <q-item-side>
+                <q-btn v-if="!item.editing" color="warning" outline @click="editTask(item)" small>
+                  <q-icon name="edit" />
+                </q-btn>
+                <q-btn v-if="item.editing" color="positive" @click="saveTask(item)" small>
+                  <q-icon name="check" />
+                </q-btn>
+                <q-btn color="negative" outline @click="removeTask(item)" small>
+                  <q-icon name="delete" />
+                </q-btn>
+              </q-item-side>
+            </q-item>
+          </div>
         </q-list>
       </q-card>
     </div>
@@ -37,7 +50,9 @@ import {
   QItemSide,
   QItemMain,
   QInput,
-  QCard
+  QIcon,
+  QCard,
+  Dialog
 } from 'quasar'
 import { Meteor } from 'meteor/meteor'
 import { Tasks } from 'api/collections'
@@ -53,6 +68,7 @@ export default {
     QItemSide,
     QItemMain,
     QInput,
+    QIcon,
     QCard
   },
   data () {
@@ -68,7 +84,8 @@ export default {
         .map(function (item) {
           return {
             _id: item._id,
-            title: item.title
+            title: item.title,
+            editing: false
           }
         })
     })
@@ -77,8 +94,37 @@ export default {
     addTask () {
       if (this.newTask) return Meteor.call('tasks.insert', this.newTask)
     },
+    editTask (item) {
+      item.editing = true
+      if (item.editing === true) {
+        this.changeTask = item.title
+      }
+    },
+    saveTask (item) {
+      item.editing = false
+      if (this.changeTask) return Meteor.call('tasks.update', item._id, this.changeTask)
+    },
     removeTask (item) {
-      Meteor.call('tasks.remove', item._id)
+      Dialog.create({
+        title: 'Remove task',
+        message: 'Are you sure you want to remove this task?',
+        buttons: [
+          {
+            label: 'Cancel',
+            handler () {
+              console.log('Canceled...')
+            }
+          },
+          {
+            label: 'Remove',
+            color: 'negative',
+            outline: true,
+            handler () {
+              Meteor.call('tasks.remove', item._id)
+            }
+          }
+        ]
+      })
     }
   }
 }
@@ -90,12 +136,26 @@ export default {
   text-align center
 .padding
   padding 30px
-.margin
+.title
+  text-align left
+.notFound
   margin 20px auto
-  display table
+  display flex
+  justify-content center
+  align-items center
+  flex-direction column
+  color #888
+  .q-icon
+    font-size: 40px;
+    margin-bottom: 15px;
 .block-field
   max-width 480px
   margin 0 auto
+  position relative
+.add-button
+  position absolute
+  right 0
+  top 5px
 .block-list
   max-width 480px
   margin 30px auto
