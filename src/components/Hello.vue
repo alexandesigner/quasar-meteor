@@ -4,8 +4,8 @@
     <h5>Welcome to your Quasar + Meteor</h5>
     <div class="padding">
       <div class="block-field">
-        <q-input v-model="newTask" stack-label="Insert your task title" />
-        <q-btn color="primary" small @click="addTask" class="add-button">Add Task</q-btn>
+        <q-input v-model="newTask" @keyup.enter="addTask" stack-label="Insert your task title" />
+        <q-btn color="primary" small @click.prevent="addTask" class="add-button">Add Task</q-btn>
       </div>
       <q-card class="block-list">
         <q-list>
@@ -23,13 +23,13 @@
                 <q-input v-if="item.editing" v-model="changeTask" />
               </q-item-main>
               <q-item-side>
-                <q-btn v-if="!item.editing" color="warning" outline @click="editTask(item)" small>
+                <q-btn v-if="!item.editing" color="warning" outline @click.prevent="editTask(item)" small>
                   <q-icon name="edit" />
                 </q-btn>
-                <q-btn v-if="item.editing" color="positive" @click="saveTask(item)" small>
+                <q-btn v-if="item.editing" color="positive" @click.prevent="saveTask(item)" small>
                   <q-icon name="check" />
                 </q-btn>
-                <q-btn color="negative" outline @click="removeTask(item)" small>
+                <q-btn color="negative" outline @click.prevent="removeTask(item)" small>
                   <q-icon name="delete" />
                 </q-btn>
               </q-item-side>
@@ -92,7 +92,10 @@ export default {
   },
   methods: {
     addTask () {
-      if (this.newTask) return Meteor.call('tasks.insert', this.newTask)
+      if (this.newTask) {
+        Meteor.call('tasks.insert', this.newTask)
+        this.newTask = ''
+      }
     },
     editTask (item) {
       item.editing = true
