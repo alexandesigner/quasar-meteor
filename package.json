@@ -18,7 +18,6 @@
     "quasar-extras": "0.x",
     "quasar-framework": "^0.14.4",
     "vue": "^2.5.0",
-    "vue-meteor-tracker": "^1.2.3",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
