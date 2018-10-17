@@ -2,7 +2,7 @@
 
 > A [Quasar Framework](https://github.com/quasarframework/quasar) + [Meteor](https://github.com/meteor/meteor) starter kit
 
-## Build Setup
+## Commands to start and build
 
 ``` bash
 # install dependencies
@@ -15,13 +15,13 @@ $ npm run bundler
 $ npm run api
 
 # serve with hot reload at localhost:8081
-$ quasar dev
+$ npm run dev
 
 # build for production with minification
-$ quasar build
+$ npm run build
 
 # lint code
-$ quasar lint
+$ npm run lint
 ```
 
 ##### NOTE: There are two ways to integrate Quasar with the Meteor. One is using Quasar-CLI and another using Meteor-CLI, this repository is using Quasar's integral base with a Meteor API using [Meteor Client Bundler](https://github.com/Urigo/meteor-client-bundler)
