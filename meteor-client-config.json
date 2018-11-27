@@ -1,0 +1,24 @@
+{
+  "release": "1.8",
+  "runtime": {
+    "DDP_DEFAULT_CONNECTION_URL": "http://localhost:4000",
+    "ROOT_URL": "http://localhost:4000",
+    "autoupdate": {
+      "versions": {}
+    }
+  },
+  "import": [
+    "meteor-base",
+    "mongo",
+    "tracker",
+    "accounts-password",
+    "accounts-base"
+  ],
+  "externalNpmPackages": [
+    "@babel/runtime",
+    "core-js",
+    "meteor-node-stubs"
+  ],
+  "generateNodeModules": true,
+  "npmInstall": false
+}

@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "bundler": "meteor-client bundle — config=meteor-client.config.json",
-    "api": "cd api/ && meteor -p 4000",
+    "api": "cd api/ && meteor npm install && meteor run -p 4000",
     "lint": "eslint --ext .js,.vue src",
     "test": "echo \"No test specified\" && exit 0"
   },
