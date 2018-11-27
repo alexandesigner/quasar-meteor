@@ -1,4 +1,2 @@
-build/*.js
-config/*.js
-dist/*.js
-api/
+/dist
+/api
