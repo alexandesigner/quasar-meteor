@@ -86,15 +86,15 @@ module.exports = function (ctx) {
     // animations: 'all' --- includes all animations
     animations: [],
     ssr: {
-      pwa: false
+      pwa: true
     },
     pwa: {
       // workboxPluginMode: 'InjectManifest',
       // workboxOptions: {},
       manifest: {
-        // name: 'Quasar App',
-        // short_name: 'Quasar-PWA',
-        // description: 'Best PWA App in town!',
+        name: 'Quasar App',
+        short_name: 'Quasar-PWA',
+        description: 'Best PWA App in town!',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
