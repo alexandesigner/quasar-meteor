@@ -21,14 +21,14 @@ $ npm run api
 $ npm run lint
 ```
 
-Install [Quasar CLI](https://github.com/quasarframework/quasar-cli)
+These commands require you to install the [Quasar CLI](https://github.com/quasarframework/quasar-cli)
 
 ```bash
 # serve with hot reload at localhost:8081
-$ quasar dev
+$ npm run dev
 
 # build for production with minification
-$ quasar build
+$ npm run build
 ```
 
 ##### NOTE: There are two ways to integrate Quasar with the Meteor. One is using Quasar-CLI and another using Meteor-CLI, this repository is using Quasar's integral base with a Meteor API using [Meteor Client Bundler](https://github.com/Urigo/meteor-client-bundler)

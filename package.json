@@ -7,6 +7,8 @@
   "author": "Allan Alexandre <alexandesigner@gmail.com>",
   "private": true,
   "scripts": {
+    "dev": "quasar dev -m pwa",
+    "build": "quasar build -m pwa",
     "bundler": "meteor-client bundle --destination node_modules/meteor.bundle.js --config meteor.bundle.config.json",
     "api": "cd api/ && meteor npm install && meteor run -p 4000",
     "lint": "eslint --ext .js,.vue src",
