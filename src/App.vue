@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import 'meteor-client'
 export default {
   name: 'App'
 }

@@ -7,15 +7,13 @@
   "author": "Allan Alexandre <alexandesigner@gmail.com>",
   "private": true,
   "scripts": {
-    "bundler": "meteor-client bundle — config=meteor-client.config.json",
+    "bundler": "meteor-client bundle --destination node_modules/meteor.bundle.js --config meteor.bundle.config.json",
     "api": "cd api/ && meteor npm install && meteor run -p 4000",
     "lint": "eslint --ext .js,.vue src",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@babel/runtime": "^7.1.5",
-    "axios": "^0.18.0",
-    "meteor-node-stubs": "^0.4.1"
+    "axios": "^0.18.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",

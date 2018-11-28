@@ -6,7 +6,7 @@
       <div class="authentication">
 
         <div class="auth-buttons" v-if="!loggedIn">
-          <small>Basic authentication using Meteor.Accounts</small>
+          <small>Basic authentication using <strong>Meteor.Accounts</strong></small>
           <div>
             <q-btn color="standard" text-color="dark" @click="loginModal = true">Login</q-btn>
             <q-btn color="primary" @click="registerModal = true">Register</q-btn>
@@ -115,10 +115,7 @@
 </template>
 
 <script>
-import { Meteor } from 'meteor/meteor'
-import { Accounts } from 'meteor/accounts-base'
 import { Tasks } from 'api/collections'
-import { Tracker } from 'meteor/tracker'
 
 export default {
   name: 'PageIndex',
@@ -144,8 +141,8 @@ export default {
     }
   },
   created () {
-    Meteor.subscribe('tasks')
-    Tracker.autorun(() => {
+    this.$meteor.subscribe('tasks')
+    this.$meteor.tracker.autorun(() => {
       this.loginStatus()
       this.tasks = Tasks.find({}, {sort: { createdAt: -1 }})
         .map((item) => {
@@ -162,9 +159,9 @@ export default {
   },
   methods: {
     userEmail () {
-      Tracker.autorun(() => {
-        if (Meteor.userId() !== null || Meteor.user() !== null) {
-          const userEmail = Meteor.users.find({_id: Meteor.userId()}, {fields: {emails: 1}})
+      this.$meteor.tracker.autorun(() => {
+        if (this.$meteor.userId() !== null || this.$meteor.user() !== null) {
+          const userEmail = this.$meteor.users.find({_id: this.$meteor.userId()}, {fields: {emails: 1}})
             .map((item) => {
               return item.emails[0].address
             })
@@ -174,15 +171,15 @@ export default {
     },
     logout () {
       this.$q.notify('You logged out')
-      Meteor.logout()
+      this.$meteor.logout()
       this.loggedIn = false
     },
     loginStatus () {
-      if (Meteor.userId() !== null || Meteor.user() !== null) this.loggedIn = true
+      if (this.$meteor.userId() !== null || this.$meteor.user() !== null) this.loggedIn = true
     },
     addTask (item) {
       if (this.newTask) {
-        Meteor.call('tasks.insert', this.newTask, (err) => {
+        this.$meteor.call('tasks.insert', this.newTask, (err) => {
           if (err) {
             this.$q.notify({
               message: err.reason,
@@ -201,7 +198,7 @@ export default {
     saveTask (item) {
       item.editing = false
       if (this.changeTask) {
-        Meteor.call('tasks.update', item._id, this.changeTask, (err) => {
+        this.$meteor.call('tasks.update', item._id, this.changeTask, (err) => {
           if (err) {
             this.$q.notify({
               message: err.reason,
@@ -226,7 +223,7 @@ export default {
           flat: true
         }
       }).then(() => {
-        Meteor.call('tasks.remove', item._id, (err) => {
+        this.$meteor.call('tasks.remove', item._id, (err) => {
           if (err) {
             this.$q.notify({
               message: err.reason,
@@ -245,7 +242,7 @@ export default {
     },
     login () {
       this.loginLoad = true
-      Meteor.loginWithPassword(this.loginForm.email, this.loginForm.password, (err) => {
+      this.$meteor.loginWithPassword(this.loginForm.email, this.loginForm.password, (err) => {
         if (err) {
           this.$q.notify({
             message: err.reason,
@@ -266,7 +263,7 @@ export default {
     },
     register () {
       this.registerLoad = true
-      Accounts.createUser({
+      this.$meteor.accounts.createUser({
         createdAt: new Date(),
         email: this.registerForm.email,
         password: this.registerForm.password
