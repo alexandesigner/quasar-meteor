@@ -3,7 +3,7 @@
 > A [Quasar Framework](https://github.com/quasarframework/quasar) + [Meteor](https://github.com/meteor/meteor) starter kit
 
 <a href="https://meteor.com/"><img src="https://img.shields.io/badge/meteor-1.8.0.1-green.svg"/></a>
-<a href="https://quasar-framework.org"><img src="https://img.shields.io/badge/quasar-1.0-beta.9-blue.svg"/></a>
+<a href="https://quasar-framework.org"><img src="https://img.shields.io/badge/quasar-1.0.beta.9-blue.svg"/></a>
 
 ## Commands to start, lint and build
 
