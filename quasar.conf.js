@@ -3,20 +3,19 @@ const path = require('path')
 
 module.exports = function (ctx) {
   return {
-    // app plugins (/src/plugins)
-    plugins: [
-      'axios',
+    boot: [
       'meteor'
     ],
     css: [
       'app.styl'
     ],
     extras: [
-      ctx.theme.mat ? 'roboto-font' : null,
+      'roboto-font',
       'material-icons' // optional, you are not bound to it
-      // 'ionicons',
-      // 'mdi',
-      // 'fontawesome'
+      // 'ionicons-v4',
+      // 'mdi-v3',
+      // 'fontawesome-v5',
+      // 'eva-icons'
     ],
     supportIE: false,
     build: {
@@ -43,6 +42,7 @@ module.exports = function (ctx) {
           var locator = pack && 'Package["' + pack + '"]'
           return locator ? callback(null, locator) : callback()
         }
+
       }
     },
     devServer: {
@@ -54,26 +54,26 @@ module.exports = function (ctx) {
     framework: {
       components: [
         'QLayout',
-        'QLayoutHeader',
-        'QLayoutDrawer',
+        'QHeader',
+        'QDrawer',
         'QPageContainer',
         'QPage',
         'QToolbar',
         'QToolbarTitle',
         'QBtn',
+        'QBtnGroup',
         'QIcon',
         'QList',
-        'QListHeader',
         'QItem',
-        'QItemSide',
-        'QItemMain',
+        'QItemSection',
+        'QItemLabel',
         'QInput',
-        'QModal',
-        'QCard'
+        'QCard',
+        'QDialog'
       ],
       directives: [
         'Ripple',
-        'CloseOverlay'
+        'CloseDialog'
       ],
       // Quasar plugins
       plugins: [
@@ -86,7 +86,7 @@ module.exports = function (ctx) {
     // animations: 'all' --- includes all animations
     animations: [],
     ssr: {
-      pwa: true
+      pwa: false
     },
     pwa: {
       // workboxPluginMode: 'InjectManifest',

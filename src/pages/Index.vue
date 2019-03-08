@@ -17,95 +17,112 @@
           <q-btn @click="logout" color="negative" small>Logout</q-btn>
         </div>
 
-        <q-modal class="auth-modal" v-model="loginModal">
-          <div class="padding">
-            <h4>Login</h4>
-            <q-btn class="close" color="negative" flat @click="loginModal = false">
-              <q-icon name="close" />
-            </q-btn>
-            <div class="form">
-              <div>
-                <q-input
-                  stack-label="Your email"
-                  v-model="loginForm.email"
-                  @keyup.enter="login"
-                />
-              </div>
-              <div>
-                <q-input
-                  stack-label="Your password"
-                  type="password"
-                  v-model="loginForm.password"
-                  @keyup.enter="login"
-                />
-              </div>
-              <div>
-                <q-btn loader v-model="loginLoad" @click="login" color="primary" class="full-width">Login</q-btn>
+        <q-dialog class="auth-modal" v-model="loginModal">
+          <q-card>
+            <div class="modal-content">
+              <h4>Login</h4>
+              <q-btn class="close" icon="close" flat round dense v-close-dialog  @click="loginModal = false" />
+              <div class="form">
+                <div>
+                  <q-input
+                    filled
+                    stack-label
+                    label="Your email"
+                    v-model="loginForm.email"
+                    @keyup.enter="login"
+                  />
+                </div>
+                <div>
+                  <q-input
+                    filled
+                    stack-label
+                    label="Your password"
+                    type="password"
+                    v-model="loginForm.password"
+                    @keyup.enter="login"
+                  />
+                </div>
+                <div>
+                  <q-btn loader v-model="loginLoad" @click="login" color="primary" class="full-width">Login</q-btn>
+                </div>
               </div>
             </div>
-          </div>
-        </q-modal>
+          </q-card>
+        </q-dialog>
 
-        <q-modal class="auth-modal" v-model="registerModal">
-          <div class="padding">
-            <h4>Register</h4>
-            <q-btn class="close" color="negative" flat @click="registerModal = false">
-              <q-icon name="close" />
-            </q-btn>
-            <div class="form">
-              <div>
-                <q-input
-                  stack-label="Your email"
-                  v-model="registerForm.email"
-                  @keyup.enter="register"
-                />
-              </div>
-              <div>
-                <q-input
-                  stack-label="Your password"
-                  type="password"
-                  v-model="registerForm.password"
-                  @keyup.enter="register"
-                />
-              </div>
-              <div>
-                <q-btn loader v-model="registerLoad" @click.prevent="register" color="positive" class="full-width">Confirm</q-btn>
+        <q-dialog class="auth-modal" v-model="registerModal">
+          <q-card>
+            <div class="modal-content">
+              <h4>Register</h4>
+              <q-btn class="close" icon="close" flat round dense v-close-dialog  @click="registerModal = false" />
+              <div class="form">
+                <div>
+                  <q-input
+                    filled
+                    stack-label
+                    label="Your email"
+                    v-model="registerForm.email"
+                    @keyup.enter="register"
+                  />
+                </div>
+                <div>
+                  <q-input
+                    filled
+                    stack-label
+                    label="Your password"
+                    type="password"
+                    v-model="registerForm.password"
+                    @keyup.enter="register"
+                  />
+                </div>
+                <div>
+                  <q-btn loader v-model="registerLoad" @click.prevent="register" color="positive" class="full-width">Confirm</q-btn>
+                </div>
               </div>
             </div>
-          </div>
-        </q-modal>
+          </q-card>
+        </q-dialog>
 
       </div>
       <q-card v-if="loggedIn" class="block-list">
         <div class="block-field">
-          <q-input v-model="newTask" stack-label="Insert your task title" />
+          <q-input
+            filled
+            v-model="newTask"
+            label="Insert your task title"
+          />
           <q-btn :disabled="this.newTask.length < 3" color="primary" small @click.prevent="addTask" class="add-button">Add Task</q-btn>
         </div>
         <q-list>
           <div v-if="this.tasks.length === 0">
-            <span class="notFound">
+            <span class="not-found">
               <q-icon name="not_interested" />
               <span>No registration for tasks</span>
             </span>
           </div>
           <div v-else>
-            <q-list-header class="title">Tasks <strong>({{ this.tasks.length }})</strong></q-list-header>
+            <q-item-label header>Tasks <strong>({{ this.tasks.length }})</strong></q-item-label>
             <q-item v-for="item in tasks" :key="item.id">
-              <q-item-main>
-                <span v-if="!item.editing">{{ item.title }}</span>
-                <q-input v-if="item.editing" v-model="changeTask" />
-              </q-item-main>
-              <q-item-side>
-                <q-btn v-if="!item.editing" color="warning" outline @click.prevent="editTask(item)" small>
-                  <q-icon name="edit" />
-                </q-btn>
-                <q-btn v-if="item.editing" color="positive" @click.prevent="saveTask(item)" small>
-                  <q-icon name="check" />
-                </q-btn>
-                <q-btn color="negative" outline @click.prevent="removeTask(item)" small>
-                  <q-icon name="delete" />
-                </q-btn>
-              </q-item-side>
+              <q-item-section>
+                <q-item-label v-if="!item.editing">{{ item.title }}</q-item-label>
+                <q-input
+                  v-if="item.editing"
+                  v-model="changeTask"
+                />
+              </q-item-section>
+              <q-item-section side>
+                <q-btn-group>
+                  <q-btn v-if="!item.editing" color="warning" outline @click.prevent="editTask(item)" small>
+                    <q-icon name="edit" />
+                  </q-btn>
+                  <q-btn v-if="item.editing" color="positive" @click.prevent="saveTask(item)" small>
+                    <q-icon name="check" />
+                  </q-btn>
+                  <q-btn color="negative" outline @click.prevent="removeTask(item)" small>
+                    <q-icon name="delete" />
+                  </q-btn>
+                </q-btn-group>
+              </q-item-section>
             </q-item>
           </div>
         </q-list>
@@ -144,7 +161,7 @@ export default {
     this.$meteor.subscribe('tasks')
     this.$meteor.tracker.autorun(() => {
       this.loginStatus()
-      this.tasks = Tasks.find({}, {sort: { createdAt: -1 }})
+      this.tasks = Tasks.find({}, { sort: { createdAt: -1 } })
         .map((item) => {
           return {
             _id: item._id,
@@ -161,7 +178,7 @@ export default {
     userEmail () {
       this.$meteor.tracker.autorun(() => {
         if (this.$meteor.userId() !== null || this.$meteor.user() !== null) {
-          const userEmail = this.$meteor.users.find({_id: this.$meteor.userId()}, {fields: {emails: 1}})
+          const userEmail = this.$meteor.users.find({ _id: this.$meteor.userId() }, { fields: { emails: 1 } })
             .map((item) => {
               return item.emails[0].address
             })
@@ -205,7 +222,7 @@ export default {
               color: 'negative'
             })
           } else {
-            this.$q.notify('Changed' + this.changeTask)
+            this.$q.notify(`Changed ${this.changeTask}`)
           }
         })
       }
@@ -222,7 +239,7 @@ export default {
           label: 'Cancel',
           flat: true
         }
-      }).then(() => {
+      }).onOk(() => {
         this.$meteor.call('tasks.remove', item._id, (err) => {
           if (err) {
             this.$q.notify({
@@ -236,7 +253,7 @@ export default {
             })
           }
         })
-      }).catch(() => {
+      }).onCancel(() => {
         console.log('Removed...')
       })
     },
@@ -295,23 +312,33 @@ body
   background #f1f1f1
 .hello
   text-align center
+.q-item__label--header
+  text-align left
+.q-field__control, .q-field
+  width 100%
 .q-btn
-  margin 0 5px
+  margin 0 1px
   background #fff
 .padding
   padding 30px
+.q-item__section--main
+  align-items flex-start
+.q-btn-group
+  box-shadow 0 0 0 0
 .title
   text-align left
-.notFound
-  margin 20px auto
+.not-found
+  margin 0 auto
   display flex
   justify-content center
   align-items center
   flex-direction column
   color #888
+  padding-top 10px
+  padding-bottom 30px
   .q-icon
-    font-size: 40px;
-    margin-bottom: 15px;
+    font-size 40px
+    margin-bottom 15px
 .block-field
   max-width 480px
   margin 0 auto
@@ -319,14 +346,17 @@ body
   padding 20px
 .add-button
   position absolute
-  right 20px
-  top 35px
+  right 30px
+  top 30px
 .block-list
   max-width 480px
   margin 30px auto
   background #fff
 .q-if-label
   text-align left
+.auth-profile
+  strong
+    margin-right 15px
 .auth-buttons
   display flex
   justify-content center
@@ -334,16 +364,22 @@ body
   flex-direction column
   small
     margin-bottom 20px
-.auth-modal
-  .form
-    margin-top 30px
-    .q-btn
-      margin-top 10px
-  .modal-content
-    border-radius 4px
-    .close
-      position absolute
-      right 0
-      top 0
-      padding 0 10px
+.modal-content
+  border-radius 4px
+  background #fff
+  padding 20px
+  h4
+    margin 0 0 10px 0
+    font-size 22px
+    font-weight bold
+    text-align center
+  .close
+    position absolute
+    right 0
+    top 0
+    padding 0 10px
+  .q-input
+    margin-bottom 10px
+  .q-btn
+    margin-top 10px
 </style>
