@@ -109,7 +109,7 @@
                 <span>No registration for tasks</span>
               </span>
             </div>
-            <div v-else>
+            <div class="list-tasks" v-else>
               <q-item-label header>Tasks <strong>({{ this.tasks.length }})</strong></q-item-label>
               <q-item v-for="item in tasks" :key="item.id">
                 <q-item-section>
@@ -392,6 +392,8 @@ body
   display flex
   justify-content center
   align-items center
+.list-tasks
+  padding-bottom 15px
 .modal-content
   border-radius 4px
   background #fff
