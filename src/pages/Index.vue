@@ -93,52 +93,75 @@
           />
           <q-btn :disabled="this.newTask.length < 3" color="primary" small @click.prevent="addTask" class="add-button">Add Task</q-btn>
         </div>
-        <q-list>
-          <div v-if="this.tasks.length === 0">
-            <span class="not-found">
-              <q-icon name="not_interested" />
-              <span>No registration for tasks</span>
-            </span>
-          </div>
-          <div v-else>
-            <q-item-label header>Tasks <strong>({{ this.tasks.length }})</strong></q-item-label>
-            <q-item v-for="item in tasks" :key="item.id">
-              <q-item-section>
-                <q-item-label v-if="!item.editing">{{ item.title }}</q-item-label>
-                <q-input
-                  v-if="item.editing"
-                  v-model="changeTask"
-                />
-              </q-item-section>
-              <q-item-section side>
-                <q-btn-group>
-                  <q-btn v-if="!item.editing" color="warning" outline @click.prevent="editTask(item)" small>
-                    <q-icon name="edit" />
-                  </q-btn>
-                  <q-btn v-if="item.editing" color="positive" @click.prevent="saveTask(item)" small>
-                    <q-icon name="check" />
-                  </q-btn>
-                  <q-btn color="negative" outline @click.prevent="removeTask(item)" small>
-                    <q-icon name="delete" />
-                  </q-btn>
-                </q-btn-group>
-              </q-item-section>
-            </q-item>
-          </div>
-        </q-list>
+        <template v-if="loading > 0">
+          <span class="loader">
+            <q-spinner
+              color="primary"
+              size="3em"
+            />
+          </span>
+        </template>
+        <template v-else>
+          <q-list>
+            <div v-if="this.tasks.length === 0">
+              <span class="not-found">
+                <q-icon name="not_interested" />
+                <span>No registration for tasks</span>
+              </span>
+            </div>
+            <div v-else>
+              <q-item-label header>Tasks <strong>({{ this.tasks.length }})</strong></q-item-label>
+              <q-item v-for="item in tasks" :key="item.id">
+                <q-item-section>
+                  <q-item-label v-if="!item.editing">{{ item.title }}</q-item-label>
+                  <q-input
+                    v-if="item.editing"
+                    v-model="changeTask"
+                  />
+                </q-item-section>
+                <q-item-section side>
+                  <q-btn-group>
+                    <q-btn v-if="!item.editing" color="warning" outline @click.prevent="editTask(item)" small>
+                      <q-icon name="edit" />
+                    </q-btn>
+                    <q-btn v-if="item.editing" color="positive" @click.prevent="saveTask(item)" small>
+                      <q-icon name="check" />
+                    </q-btn>
+                    <q-btn color="negative" outline @click.prevent="removeTask(item)" small>
+                      <q-icon name="delete" />
+                    </q-btn>
+                  </q-btn-group>
+                </q-item-section>
+              </q-item>
+            </div>
+          </q-list>
+        </template>
       </q-card>
     </div>
   </div>
 </template>
 
 <script>
+import gql from 'graphql-tag'
 import { Tasks } from 'api/collections'
 
 export default {
   name: 'PageIndex',
+  apollo: {
+    posts: {
+      query: gql`query {
+        tasks {
+          id
+          title
+        }
+      }`,
+      loadingKey: 'loading'
+    }
+  },
   data () {
     return {
       tasks: [],
+      loading: 0,
       userData: [],
       newTask: '',
       registerModal: false,
@@ -364,6 +387,11 @@ body
   flex-direction column
   small
     margin-bottom 20px
+.loader
+  padding-bottom 20px
+  display flex
+  justify-content center
+  align-items center
 .modal-content
   border-radius 4px
   background #fff

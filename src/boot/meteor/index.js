@@ -7,7 +7,7 @@ import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
 import { Tracker } from 'meteor/tracker'
 
-export default ({ Vue }) => {
+export default async ({ app, router, Vue }) => {
   Vue.prototype.$meteor = Meteor
   Vue.prototype.$meteor.tracker = Tracker
   Vue.prototype.$meteor.accounts = Accounts

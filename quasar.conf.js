@@ -4,7 +4,8 @@ const path = require('path')
 module.exports = function (ctx) {
   return {
     boot: [
-      'meteor'
+      'meteor',
+      'apollo'
     ],
     css: [
       'app.styl'
@@ -69,7 +70,8 @@ module.exports = function (ctx) {
         'QItemLabel',
         'QInput',
         'QCard',
-        'QDialog'
+        'QDialog',
+        'QSpinner'
       ],
       directives: [
         'Ripple',
