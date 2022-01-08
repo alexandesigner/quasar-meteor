@@ -8,32 +8,32 @@
 ## Get Started
 
 ``` bash
-# install dependencies
-$ npm install
+# Install dependencies
+npm install
 
-# install meteor client bundler
-$ npm run generate:bundler
+# Install meteor client bundler
+npm run generate:bundler
 ```
 
-### This will generate a ``meteor.bundle.js`` file in ``/node_modules``, make sure it really exists before running the application.
+#####  This will generate a ``meteor.bundle.js`` file in ``/node_modules``, make sure it really exists before running the application.
 ## Run API in Meteor
 
 ``` bash
-# before running the application at localhost:4000, make sure that the meteor server is running for this
-$ npm run api
+# Run application at localhost:4000
+npm run api
 ```
 
 ## Commands to run/build Application
 
 ```bash
-# serve with hot reload at localhost:3000
-$ npm run dev
+# Serve with hot reload at localhost:3000
+npm run dev
 
-# build for production with minification
-$ npm run build
+# Build for production with minification
+npm run build
 
-# lint code
-$ npm run lint
+# Lint code
+npm run lint
 ```
 
 ##### NOTE: There are two ways to integrate Quasar with the Meteor. One is using Quasar-CLI and another using Meteor-CLI, this repository is using Quasar's integral base with a Meteor API using [Meteor Client Bundler](https://github.com/Urigo/meteor-client-bundler)
