@@ -2,8 +2,8 @@
 
 > A [Quasar Framework](https://github.com/quasarframework/quasar) + [Meteor](https://github.com/meteor/meteor) starter kit
 
-<a href="https://meteor.com/"><img src="https://img.shields.io/badge/meteor-1.8.1-green.svg"/></a>
-<a href="https://quasar.dev/"><img src="https://img.shields.io/badge/quasar-2.4.3.svg"/></a>
+<a href="https://meteor.com/"><img src="https://img.shields.io/badge/meteor-1.8.1-green"/></a>
+<a href="https://quasar.dev/"><img src="https://img.shields.io/badge/quasar-2.4.3-blue"/></a>
 
 ## Get Started
 
