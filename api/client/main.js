@@ -1,9 +1,9 @@
-import { Template } from 'meteor/templating'
+import { Template } from 'meteor/templating';
 import { Tasks } from '../imports/api/collections'
 
-import './main.html'
+import './main.html';
 
-Template.tasksList.onCreated(function tasksListOnCreated(){
+Template.tasksList.onCreated(function tasksListOnCreated() {
   Meteor.subscribe('tasks')
 })
 

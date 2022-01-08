@@ -1,9 +1,11 @@
 <head>
-  <title>Meteor API</title>
+  <title>API</title>
 </head>
 
 <body>
-  {{> tasksList }}
+  <h1>Welcome to Meteor!</h1>
+
+  {{> tasksList}}
 </body>
 
 <template name="tasksList">
@@ -11,9 +13,9 @@
     <button type="button" id="add-task">Add task</button>
     <div>
       {{#each tasks}}
-        <ul>
-          <li>{{ title }}</li>
-        </ul>
+      <ul>
+        <li>{{ title }}</li>
+      </ul>
       {{/each}}
     </div>
   </div>

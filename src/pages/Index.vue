@@ -1,15 +1,24 @@
 <template>
   <div class="hello">
-    <img src="~assets/quasar-meteor-logo-full.svg" alt="Quasar + Meteor Starter kit" width="280">
+    <img
+      src="~assets/quasar-meteor-logo-full.svg"
+      alt="Quasar + Meteor Starter kit"
+      width="280"
+    />
     <h5>Welcome to your Quasar + Meteor Starter kit</h5>
-    <div class="padding">
+    <div class="form-container padding">
       <div class="authentication">
-
         <div class="auth-buttons" v-if="!loggedIn">
-          <small>Basic authentication using <strong>Meteor.Accounts</strong></small>
+          <small
+            >Basic authentication using <strong>Meteor.Accounts</strong></small
+          >
           <div>
-            <q-btn color="standard" text-color="dark" @click="loginModal = true">Login</q-btn>
-            <q-btn color="primary" @click="registerModal = true">Register</q-btn>
+            <q-btn color="standard" text-color="dark" @click="loginModal = true"
+              >Login</q-btn
+            >
+            <q-btn color="primary" @click="registerModal = true"
+              >Register</q-btn
+            >
           </div>
         </div>
         <div class="auth-profile" v-if="loggedIn">
@@ -21,7 +30,6 @@
           <q-card>
             <div class="modal-content">
               <h4>Login</h4>
-              <q-btn class="close" icon="close" flat round dense v-close-dialog  @click="loginModal = false" />
               <div class="form">
                 <div>
                   <q-input
@@ -43,7 +51,14 @@
                   />
                 </div>
                 <div>
-                  <q-btn loader v-model="loginLoad" @click="login" color="primary" class="full-width">Login</q-btn>
+                  <q-btn
+                    loader
+                    v-model="loginLoad"
+                    @click="login"
+                    color="primary"
+                    class="full-width"
+                    >Login</q-btn
+                  >
                 </div>
               </div>
             </div>
@@ -54,7 +69,6 @@
           <q-card>
             <div class="modal-content">
               <h4>Register</h4>
-              <q-btn class="close" icon="close" flat round dense v-close-dialog  @click="registerModal = false" />
               <div class="form">
                 <div>
                   <q-input
@@ -76,22 +90,31 @@
                   />
                 </div>
                 <div>
-                  <q-btn loader v-model="registerLoad" @click.prevent="register" color="positive" class="full-width">Confirm</q-btn>
+                  <q-btn
+                    loader
+                    v-model="registerLoad"
+                    @click.prevent="register"
+                    color="positive"
+                    class="full-width"
+                    >Confirm</q-btn
+                  >
                 </div>
               </div>
             </div>
           </q-card>
         </q-dialog>
-
       </div>
       <q-card v-if="loggedIn" class="block-list">
         <div class="block-field">
-          <q-input
-            filled
-            v-model="newTask"
-            label="Insert your task title"
-          />
-          <q-btn :disabled="this.newTask.length < 3" color="primary" small @click.prevent="addTask" class="add-button">Add Task</q-btn>
+          <q-input filled v-model="newTask" label="Insert your task title" />
+          <q-btn
+            :disabled="this.newTask.length < 3"
+            color="primary"
+            small
+            @click.prevent="addTask"
+            class="add-button"
+            >Add Task</q-btn
+          >
         </div>
         <q-list>
           <div v-if="this.tasks.length === 0">
@@ -101,24 +124,41 @@
             </span>
           </div>
           <div v-else>
-            <q-item-label header>Tasks <strong>({{ this.tasks.length }})</strong></q-item-label>
+            <q-item-label header
+              >Tasks <strong>({{ this.tasks.length }})</strong></q-item-label
+            >
             <q-item v-for="item in tasks" :key="item.id">
               <q-item-section>
-                <q-item-label v-if="!item.editing">{{ item.title }}</q-item-label>
-                <q-input
-                  v-if="item.editing"
-                  v-model="changeTask"
-                />
+                <q-item-label v-if="!item.editing">{{
+                  item.title
+                }}</q-item-label>
+                <q-input v-if="item.editing" v-model="changeTask" />
               </q-item-section>
               <q-item-section side>
                 <q-btn-group>
-                  <q-btn v-if="!item.editing" color="warning" outline @click.prevent="editTask(item)" small>
+                  <q-btn
+                    v-if="!item.editing"
+                    color="warning"
+                    outline
+                    @click.prevent="editTask(item)"
+                    small
+                  >
                     <q-icon name="edit" />
                   </q-btn>
-                  <q-btn v-if="item.editing" color="positive" @click.prevent="saveTask(item)" small>
+                  <q-btn
+                    v-if="item.editing"
+                    color="positive"
+                    @click.prevent="saveTask(item)"
+                    small
+                  >
                     <q-icon name="check" />
                   </q-btn>
-                  <q-btn color="negative" outline @click.prevent="removeTask(item)" small>
+                  <q-btn
+                    color="negative"
+                    outline
+                    @click.prevent="removeTask(item)"
+                    small
+                  >
                     <q-icon name="delete" />
                   </q-btn>
                 </q-btn-group>
@@ -131,12 +171,51 @@
   </div>
 </template>
 
-<script>
-import { Tasks } from 'api/collections'
+<script lang="ts">
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+// @ts-ignore
+import { Tasks } from 'api/collections';
+import { Todo, Meta } from 'components/models';
+import { defineComponent, ref } from 'vue';
 
-export default {
+export default defineComponent({
   name: 'PageIndex',
-  data () {
+  setup() {
+    const todos = ref<Todo[]>([
+      {
+        id: 1,
+        content: 'ct1',
+      },
+      {
+        id: 2,
+        content: 'ct2',
+      },
+      {
+        id: 3,
+        content: 'ct3',
+      },
+      {
+        id: 4,
+        content: 'ct4',
+      },
+      {
+        id: 5,
+        content: 'ct5',
+      },
+    ]);
+    const meta = ref<Meta>({
+      totalCount: 1200,
+    });
+    return { todos, meta };
+  },
+
+  data() {
     return {
       tasks: [],
       userData: [],
@@ -148,170 +227,214 @@ export default {
       loggedIn: false,
       loginForm: {
         email: '',
-        password: ''
+        password: '',
       },
       registerForm: {
         email: '',
-        password: ''
+        password: '',
       },
-      email: ''
-    }
+      email: '',
+    };
   },
-  created () {
-    this.$meteor.subscribe('tasks')
+  created() {
+    // @ts-ignore
+    this.$meteor.subscribe('tasks');
+    // @ts-ignore
     this.$meteor.tracker.autorun(() => {
-      this.loginStatus()
-      this.tasks = Tasks.find({}, { sort: { createdAt: -1 } })
-        .map((item) => {
-          return {
-            _id: item._id,
-            title: item.title,
-            editing: false
-          }
-        })
-    })
+      this.loginStatus();
+      // @ts-ignore
+      this.tasks = Tasks.find({}, { sort: { createdAt: -1 } }).map((item) => {
+        return {
+          _id: item._id,
+          title: item.title,
+          editing: false,
+        };
+      });
+    });
   },
-  mounted () {
-    this.userEmail()
+  mounted() {
+    this.userEmail();
   },
   methods: {
-    userEmail () {
+    userEmail() {
+      // @ts-ignore
       this.$meteor.tracker.autorun(() => {
+        // @ts-ignore
         if (this.$meteor.userId() !== null || this.$meteor.user() !== null) {
-          const userEmail = this.$meteor.users.find({ _id: this.$meteor.userId() }, { fields: { emails: 1 } })
+          // @ts-ignore
+          const userEmail = this.$meteor.users
+            // @ts-ignore
+            .find({ _id: this.$meteor.userId() }, { fields: { emails: 1 } })
+            // @ts-ignore
             .map((item) => {
-              return item.emails[0].address
-            })
-          this.email = userEmail[0]
+              // @ts-ignore
+              return item.emails[0].address;
+            });
+          this.email = userEmail[0];
         }
-      })
+      });
     },
-    logout () {
-      this.$q.notify('You logged out')
-      this.$meteor.logout()
-      this.loggedIn = false
+    logout() {
+      this.$q.notify('You logged out');
+      // @ts-ignore
+      this.$meteor.logout();
+      this.loggedIn = false;
     },
-    loginStatus () {
-      if (this.$meteor.userId() !== null || this.$meteor.user() !== null) this.loggedIn = true
+    loginStatus() {
+      // @ts-ignore
+      if (this.$meteor.userId() !== null || this.$meteor.user() !== null)
+        this.loggedIn = true;
     },
-    addTask (item) {
+    // @ts-ignore
+    addTask() {
       if (this.newTask) {
+        // @ts-ignore
         this.$meteor.call('tasks.insert', this.newTask, (err) => {
           if (err) {
             this.$q.notify({
               message: err.reason,
-              color: 'positive'
-            })
+              color: 'positive',
+            });
           } else {
-            this.newTask = ''
+            this.newTask = '';
           }
-        })
+        });
       }
     },
-    editTask (item) {
-      item.editing = true
-      if (item.editing === true) this.changeTask = item.title
+    // @ts-ignore
+    editTask(item) {
+      item.editing = true;
+      // @ts-ignore
+      if (item.editing === true) this.changeTask = item.title;
     },
-    saveTask (item) {
-      item.editing = false
+    // @ts-ignore
+    saveTask(item) {
+      item.editing = false;
+      // @ts-ignore
       if (this.changeTask) {
+        // @ts-ignore
         this.$meteor.call('tasks.update', item._id, this.changeTask, (err) => {
           if (err) {
             this.$q.notify({
               message: err.reason,
-              color: 'negative'
-            })
+              color: 'negative',
+            });
           } else {
-            this.$q.notify(`Changed ${this.changeTask}`)
+            // @ts-ignore
+            this.$q.notify(`Changed ${this.changeTask}`);
           }
-        })
+        });
       }
     },
-    removeTask (item) {
-      this.$q.dialog({
-        title: 'Remove task',
-        message: 'Are you sure you want to remove this task?',
-        ok: {
-          label: 'Remove',
-          color: 'negative'
-        },
-        cancel: {
-          label: 'Cancel',
-          flat: true
-        }
-      }).onOk(() => {
-        this.$meteor.call('tasks.remove', item._id, (err) => {
+    // @ts-ignore
+    removeTask(item) {
+      this.$q
+        .dialog({
+          title: 'Remove task',
+          message: 'Are you sure you want to remove this task?',
+          ok: {
+            label: 'Remove',
+            color: 'negative',
+          },
+          cancel: {
+            label: 'Cancel',
+            flat: true,
+          },
+        })
+        .onOk(() => {
+          // @ts-ignore
+          this.$meteor.call('tasks.remove', item._id, (err) => {
+            if (err) {
+              this.$q.notify({
+                message: err.reason,
+                color: 'negative',
+              });
+            } else {
+              this.$q.notify({
+                message: 'Task has removed',
+                color: 'negative',
+              });
+            }
+          });
+        })
+        .onCancel(() => {
+          console.log('Removed...');
+        });
+    },
+    login() {
+      this.loginLoad = true;
+      // @ts-ignore
+      this.$meteor.loginWithPassword(
+        this.loginForm.email,
+        this.loginForm.password,
+        // @ts-ignore
+        (err) => {
           if (err) {
             this.$q.notify({
               message: err.reason,
-              color: 'negative'
-            })
+              color: 'negative',
+            });
+            this.loginLoad = false;
           } else {
             this.$q.notify({
-              message: 'Task has removed',
-              color: 'negative'
-            })
+              message: 'Good to see you again, welcome',
+              color: 'positive',
+            });
+            this.loginLoad = false;
+            this.loginForm.email = '';
+            this.loginForm.password = '';
+            this.loginModal = false;
           }
-        })
-      }).onCancel(() => {
-        console.log('Removed...')
-      })
-    },
-    login () {
-      this.loginLoad = true
-      this.$meteor.loginWithPassword(this.loginForm.email, this.loginForm.password, (err) => {
-        if (err) {
-          this.$q.notify({
-            message: err.reason,
-            color: 'negative'
-          })
-          this.loginLoad = false
-        } else {
-          this.$q.notify({
-            message: 'Good to see you again, welcome',
-            color: 'positive'
-          })
-          this.loginLoad = false
-          this.loginForm.email = ''
-          this.loginForm.password = ''
-          this.loginModal = false
         }
-      })
+      );
     },
-    register () {
-      this.registerLoad = true
-      this.$meteor.accounts.createUser({
-        createdAt: new Date(),
-        email: this.registerForm.email,
-        password: this.registerForm.password
-      }, (err, res) => {
-        if (err) {
-          this.$q.notify({
-            message: err.reason,
-            color: 'negative'
-          })
-          this.registerLoad = false
-        } else {
-          this.$q.notify({
-            message: 'You just signed up',
-            color: 'positive'
-          })
-          this.registerLoad = false
-          this.registerForm.email = ''
-          this.registerForm.password = ''
-          this.registerModal = false
+    register() {
+      this.registerLoad = true;
+      // @ts-ignore
+      console.log('abc', this.$meteor);
+      // @ts-ignore
+      console.log('abc', this.$meteor.$accounts);
+      // @ts-ignore
+      this.$meteor.$accounts.createUser(
+        {
+          createdAt: new Date(),
+          email: this.registerForm.email,
+          password: this.registerForm.password,
+        },
+        // @ts-ignore
+        (err) => {
+          if (err) {
+            this.$q.notify({
+              message: err.reason,
+              color: 'negative',
+            });
+            this.registerLoad = false;
+          } else {
+            this.$q.notify({
+              message: 'You just signed up',
+              color: 'positive',
+            });
+            this.registerLoad = false;
+            this.registerForm.email = '';
+            this.registerForm.password = '';
+            this.registerModal = false;
+          }
         }
-      })
-    }
-  }
-}
+      );
+    },
+  },
+});
 </script>
 
 <style lang="stylus">
 body
   background #f1f1f1
 .hello
-  text-align center
+  display flex
+  flex-direction column
+  justify-content center
+  align-items center
+  height 100vh
 .q-item__label--header
   text-align left
 .q-field__control, .q-field
@@ -382,4 +505,6 @@ body
     margin-bottom 10px
   .q-btn
     margin-top 10px
+.form-container
+  min-width: 520px;
 </style>

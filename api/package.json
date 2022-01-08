@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "api",
   "private": true,
   "scripts": {
     "start": "meteor run",
@@ -8,15 +8,8 @@
     "visualize": "meteor --production --extra-packages bundle-visualizer"
   },
   "dependencies": {
-    "@babel/runtime": "^7.1.5",
-    "bcrypt": "^5.0.0",
-    "meteor-node-stubs": "^0.4.1"
-  },
-  "meteor": {
-    "mainModule": {
-      "client": "client/main.js",
-      "server": "server/main.js"
-    },
-    "testModule": "tests/main.js"
+    "@babel/runtime": "^7.15.4",
+    "jquery": "^3.6.0",
+    "meteor-node-stubs": "^1.1.0"
   }
 }

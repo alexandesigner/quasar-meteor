@@ -1,5 +1,5 @@
 {
-  "release": "1.8",
+  "release": "1.8.1",
   "runtime": {
     "DDP_DEFAULT_CONNECTION_URL": "http://localhost:4000",
     "ROOT_URL": "http://localhost:4000",
@@ -14,5 +14,8 @@
     "accounts-password",
     "accounts-base"
   ],
-  "generateNodeModules": true
+
+  "externalNpmPackages": ["@babel/runtime"],
+  "generateNodeModules": true,
+  "npmInstall": false
 }
